@@ -51,8 +51,8 @@
   }
   function onTouchMove(event) {
     event.preventDefault();
-    const posX = event.touches[0].clientX;
-    const posY = event.touches[0].clientY;
+    const posX = event.touches[0].clientX - 1;
+    const posY = event.touches[0].clientY - 1;
 
     // false 때 경로이동하다가, true 때 line과 stroke 생성
     if (!painting || filling) {
@@ -63,6 +63,11 @@
       ctx.lineTo(posX, posY);
       ctx.stroke();
     }
+  }
+  function onTouchStart(event) {
+    event.preventDefault();
+    startPainting();
+    ctx.beginPath();
   }
 
   function onMouseDown(event) {
@@ -137,7 +142,7 @@
 
     // mobile
     canvas.addEventListener("touchmove", onTouchMove);
-    canvas.addEventListener("touchstart", onMouseDown);
+    canvas.addEventListener("touchstart", onTouchStart);
     canvas.addEventListener("touchend", stopPainting);
   }
 
