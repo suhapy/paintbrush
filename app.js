@@ -51,23 +51,30 @@
   }
   function onTouchMove(event) {
     event.preventDefault();
-    const posX = event.touches[0].clientX - 1;
-    const posY = event.touches[0].clientY - 1;
+    const posX = event.targetTouches[0]
+      ? event.targetTouches[0].pageX
+      : event.changedTouches[event.changedTouches.length - 1].pageX;
+    const posY = event.targetTouches[0]
+      ? event.targetTouches[0].pageY
+      : event.changedTouches[event.changedTouches.length - 1].pageY;
 
     // false 때 경로이동하다가, true 때 line과 stroke 생성
-    if (!painting || filling) {
-      // beginPath없으면 선 색 바꿀 때 다 바뀌어 버림,,,
-      ctx.beginPath();
-      ctx.moveTo(posX, posY);
-    } else {
+    if (painting || !filling) {
       ctx.lineTo(posX, posY);
       ctx.stroke();
     }
   }
   function onTouchStart(event) {
     event.preventDefault();
-    startPainting();
+    const posX = event.targetTouches[0]
+      ? event.targetTouches[0].pageX
+      : event.changedTouches[event.changedTouches.length - 1].pageX;
+    const posY = event.targetTouches[0]
+      ? event.targetTouches[0].pageY
+      : event.changedTouches[event.changedTouches.length - 1].pageY;
     ctx.beginPath();
+    ctx.moveTo(posX, posY);
+    startPainting();
   }
 
   function onMouseDown(event) {
