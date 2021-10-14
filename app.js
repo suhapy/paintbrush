@@ -27,14 +27,15 @@
   let filling = false;
   let currentBtn = document.querySelector(".control__color:first-child");
 
-  const startPinting = () => {
+  const startPainting = () => {
     painting = true;
   };
-  const stopPinting = () => {
+  const stopPainting = () => {
     painting = false;
   };
 
   function onMouseMove(event) {
+    event.preventDefault();
     const posX = event.offsetX;
     const posY = event.offsetY;
 
@@ -49,8 +50,9 @@
     }
   }
 
-  function onMouseDown() {
-    startPinting();
+  function onMouseDown(event) {
+    event.preventDefault();
+    startPainting();
   }
 
   // change mode
@@ -94,7 +96,7 @@
   }
 
   // save
-  function handleSaveClick(evetn) {
+  function handleSaveClick() {
     // toDataURL("image/png") 가 defalt
     const images = canvas.toDataURL();
     const link = document.createElement("a");
@@ -110,13 +112,18 @@
     // 마우스 누름
     canvas.addEventListener("mousedown", onMouseDown);
     // 마우스 땜
-    canvas.addEventListener("mouseup", stopPinting);
+    canvas.addEventListener("mouseup", stopPainting);
     // 나감
-    canvas.addEventListener("mouseleave", stopPinting);
+    canvas.addEventListener("mouseleave", stopPainting);
     // 클릭
     canvas.addEventListener("click", handleCanvasClick);
     // 우클릭
     canvas.addEventListener("contextmenu", handleCM);
+
+    // mobile
+    canvas.addEventListener("touchmove", onMouseMove);
+    canvas.addEventListener("touchstart", onMouseDown);
+    canvas.addEventListener("touchend", stopPainting);
   }
 
   if (colors) {
