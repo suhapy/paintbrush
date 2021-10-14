@@ -49,6 +49,21 @@
       ctx.stroke();
     }
   }
+  function onTouchMove(event) {
+    event.preventDefault();
+    const posX = event.touches[0].clientX;
+    const posY = event.touches[0].clientY;
+
+    // false 때 경로이동하다가, true 때 line과 stroke 생성
+    if (!painting || filling) {
+      // beginPath없으면 선 색 바꿀 때 다 바뀌어 버림,,,
+      ctx.beginPath();
+      ctx.moveTo(posX, posY);
+    } else {
+      ctx.lineTo(posX, posY);
+      ctx.stroke();
+    }
+  }
 
   function onMouseDown(event) {
     event.preventDefault();
@@ -121,7 +136,7 @@
     canvas.addEventListener("contextmenu", handleCM);
 
     // mobile
-    canvas.addEventListener("touchmove", onMouseMove);
+    canvas.addEventListener("touchmove", onTouchMove);
     canvas.addEventListener("touchstart", onMouseDown);
     canvas.addEventListener("touchend", stopPainting);
   }
