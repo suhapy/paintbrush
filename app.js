@@ -51,12 +51,8 @@
   }
   function onTouchMove(event) {
     event.preventDefault();
-    const posX = event.targetTouches[0]
-      ? event.targetTouches[0].pageX
-      : event.changedTouches[event.changedTouches.length - 1].pageX;
-    const posY = event.targetTouches[0]
-      ? event.targetTouches[0].pageY
-      : event.changedTouches[event.changedTouches.length - 1].pageY;
+    const posX = event.touches[0].offsetX;
+    const posY = event.touches[0].offsetY;
 
     // false 때 경로이동하다가, true 때 line과 stroke 생성
     if (painting || !filling) {
@@ -66,12 +62,8 @@
   }
   function onTouchStart(event) {
     event.preventDefault();
-    const posX = event.targetTouches[0]
-      ? event.targetTouches[0].pageX
-      : event.changedTouches[event.changedTouches.length - 1].pageX;
-    const posY = event.targetTouches[0]
-      ? event.targetTouches[0].pageY
-      : event.changedTouches[event.changedTouches.length - 1].pageY;
+    const posX = event.touches[0].offsetX;
+    const posY = event.touches[0].offsetY;
     ctx.beginPath();
     ctx.moveTo(posX, posY);
     startPainting();
@@ -92,7 +84,8 @@
       mode.innerText = "Paint";
     }
   }
-  function handleCanvasClick() {
+  function handleCanvasClick(event) {
+    event.preventDefault();
     if (filling) {
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     }
@@ -151,6 +144,7 @@
     canvas.addEventListener("touchmove", onTouchMove);
     canvas.addEventListener("touchstart", onTouchStart);
     canvas.addEventListener("touchend", stopPainting);
+    canvas.addEventListener("touchstart", handleCanvasClick);
   }
 
   if (colors) {
