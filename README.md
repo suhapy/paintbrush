@@ -2,4 +2,4 @@
 
 Make a Paintbrush with HTML, CSS, Vanilla JS
 
-https://suhapy.github.io/paintbrush/
+[My Paintbrush Page](https://suhapy.github.io/paintbrush/)
